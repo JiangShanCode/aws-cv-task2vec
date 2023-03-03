@@ -211,7 +211,9 @@ def plot_distance_matrix(embeddings, labels=None, distance='cosine'):
     if labels is not None:
         distance_matrix = pd.DataFrame(distance_matrix, index=labels, columns=labels)
     sns.clustermap(distance_matrix, row_linkage=linkage_matrix, col_linkage=linkage_matrix, cmap='viridis_r')
-    plt.show()
+    
+    # plt.show()
+    plt.savefig('plot_distance_matrix_mydata_output_combine_2.png')
 
 
 

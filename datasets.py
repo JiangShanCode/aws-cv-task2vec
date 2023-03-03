@@ -347,4 +347,3 @@ def stl10(root):
 def get_dataset(root, config=None):
     return _DATASETS[config.name](os.path.expanduser(root), config)
 
-

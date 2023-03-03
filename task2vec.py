@@ -122,6 +122,10 @@ class Task2Vec:
                     target = torch.bernoulli(F.sigmoid(output)).detach()
                 else:
                     target = torch.multinomial(F.softmax(output, dim=-1), 1).detach().view(-1)
+
+                # target = target.to(device)
+                print(output)
+                print(target)
                 loss = self.loss_fn(output, target)
                 self.model.zero_grad()
                 loss.backward()
