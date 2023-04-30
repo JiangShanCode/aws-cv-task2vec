@@ -87,6 +87,7 @@ def get_hessians(*embeddings, normalized=False):
 
 def get_scaled_hessian(e0, e1):
     h0, h1 = get_hessians(e0, e1, normalized=False)
+    # print(h0)
     return h0 / (h0 + h1 + 1e-8), h1 / (h0 + h1 + 1e-8)
 
 
@@ -143,6 +144,14 @@ def cosine(e0, e1):
     h1, h2 = get_scaled_hessian(e0, e1)
     return distance.cosine(h1, h2)
 
+@_register_distance
+def cosine_no_normalize(e0, e1):
+    h0, h1 = get_hessians(e0, e1, normalized=False)
+    # print(h0,h1)
+    # h0 = h0/np.linalg.norm(h0,axis=0)
+    # h1 = h1/np.linalg.norm(h1,axis=0)
+    # h1, h2 = get_scaled_hessian(e0, e1)
+    return distance.cosine(h0, h1)
 
 @_register_distance
 def normalized_cosine(e0, e1):
@@ -206,14 +215,15 @@ def plot_distance_matrix(embeddings, labels=None, distance='cosine'):
     import pandas as pd
     import matplotlib.pyplot as plt
     distance_matrix = pdist(embeddings, distance=distance)
+    print(distance_matrix)
     cond_distance_matrix = squareform(distance_matrix, checks=False)
     linkage_matrix = linkage(cond_distance_matrix, method='complete', optimal_ordering=True)
     if labels is not None:
         distance_matrix = pd.DataFrame(distance_matrix, index=labels, columns=labels)
     sns.clustermap(distance_matrix, row_linkage=linkage_matrix, col_linkage=linkage_matrix, cmap='viridis_r')
-    
-    # plt.show()
-    plt.savefig('plot_distance_matrix_mydata_output_combine_2.png')
+    print(distance_matrix)
+    # # plt.show()
+    # plt.savefig('plot_distance_matrix_mydata_0.999_cosine.png')
 
 
 
