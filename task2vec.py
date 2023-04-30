@@ -124,13 +124,14 @@ class Task2Vec:
                     target = torch.multinomial(F.softmax(output, dim=-1), 1).detach().view(-1)
 
                 # target = target.to(device)
-                print(output)
-                print(target)
+                # print(output)
+                # print(target)
                 loss = self.loss_fn(output, target)
                 self.model.zero_grad()
                 loss.backward()
                 for p in self.model.parameters():
                     if p.grad is not None:
+                        # print(p.grad.data)
                         p.grad2_acc += p.grad.data ** 2
                         p.grad_counter += 1
         for p in self.model.parameters():
